@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Car" representedClassName="Car" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="district" optional="YES" attributeType="String"/>
+        <attribute name="horsePower" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="make" optional="YES" attributeType="String"/>
+        <attribute name="model" optional="YES" attributeType="String"/>
+        <attribute name="numberReg" optional="YES" attributeType="String"/>
+        <attribute name="numberVIN" optional="YES" attributeType="String"/>
+        <attribute name="picture" optional="YES" attributeType="Binary"/>
+        <attribute name="remark" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Car" positionX="-63" positionY="-18" width="128" height="239"/>
+    </elements>
+</model>
