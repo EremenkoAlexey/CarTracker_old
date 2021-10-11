@@ -6,17 +6,22 @@
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateUpdate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="district" optional="YES" attributeType="String"/>
+        <attribute name="fuelType" optional="YES" attributeType="String"/>
+        <attribute name="fuelVolume" optional="YES" attributeType="String"/>
         <attribute name="horsePower" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isArchive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="make" optional="YES" attributeType="String"/>
+        <attribute name="mileage" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="model" optional="YES" attributeType="String"/>
         <attribute name="numberReg" optional="YES" attributeType="String"/>
         <attribute name="numberVIN" optional="YES" attributeType="String"/>
         <attribute name="picture" optional="YES" attributeType="Binary"/>
         <attribute name="remark" optional="YES" attributeType="String"/>
+        <attribute name="transmissionType" optional="YES" attributeType="String"/>
         <attribute name="year" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Car" positionX="-63" positionY="-18" width="128" height="239"/>
+        <element name="Car" positionX="-63" positionY="-18" width="128" height="314"/>
     </elements>
 </model>

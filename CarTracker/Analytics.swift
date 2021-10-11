@@ -29,66 +29,33 @@ struct Analytics: View {
         return formatter
     }()
     
-    //    func recherche() -> Bool {
-    //
-    //        let request = NSFetchRequest(entityName: Car)
-    //        let count  = try context.count(for: request)
-    //    }
-    //
     var body: some View {
         NavigationView{
             Section{
-                //
                 if self.cars.isEmpty{
-                    Form{
-                        Text("There are no objects in the current database.")
-                        //                    }
-                        
+                    List {
+                        ScrollView(.horizontal) {
+                            HStack{
+                                InsertCarCard()
+                            }.padding()
+                        }
                     }
-                }
+                }//.listStyle(PlainListStyle())
                 else{
                     List {
-                        ForEach(cars, id: \.id) { car in
-                            NavigationLink(destination: CarUpdate(car: car),
-                                           isActive : self.$isActive
-                            )
-                            {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text("\(car.make)")
-                                            .font(.headline)
-                                        //IOS 15 BETA
-                                        //Text(income.date.formatted(.dateTime.year().month().day()))
-                                        //                                Text("\(income.date, formatter: Self.stackDateFormat)")
-                                        //                                    .font(.subheadline)
+                        ScrollView(.horizontal) {
+                            HStack{
+                                ForEach(cars, id: \.id) {
+                                    car in NavigationLink(destination: CarUpdate(car: car),
+                                                          isActive : self.$isActive){
+                                        SmallCarCard(car: car)
                                     }
-                                    Spacer()
-                                    //                            28Text("\(income.value, specifier: "%.2f") RUB")
-                                    //                            Text("\(income.value, formatter: NumberFormatter())")
-                                        .font(.headline)
                                 }
-                                .frame(height: 50)
-                                .onTapGesture {
-                                    //                            self.selectId = income.id!
-                                    print("tap gesture on", car.make)
-                                    //                            self.isActive.toggle()
-                                    
-                                }
-                            }
-                        }.onDelete { indexSet in
-                            for index in indexSet {
-                                viewContext.delete(cars[index])
-                            }
-                            do {
-                                try viewContext.save()
-                            } catch {
-                                print(error.localizedDescription)
-                            }
+                            }.padding()
                         }
                     }
                     .listStyle(PlainListStyle())
                 }
-                
             }
             .navigationTitle("Car")
             .navigationBarItems(trailing: Button(action: {
@@ -110,6 +77,8 @@ struct Analytics: View {
 
 struct Analytics_Previews: PreviewProvider {
     static var previews: some View {
-        Analytics()
+        Analytics().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        
+        
     }
 }
