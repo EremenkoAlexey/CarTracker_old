@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B050FC227107B25000F54B7 /* CarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B050FC127107B25000F54B7 /* CarItem.swift */; };
+		9B050FC4271080C0000F54B7 /* CheckLibraby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B050FC3271080BF000F54B7 /* CheckLibraby.swift */; };
 		9B4FBB25270367CE0059CD4B /* CarTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB24270367CE0059CD4B /* CarTrackerApp.swift */; };
 		9B4FBB29270367D40059CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4FBB28270367D40059CD4B /* Assets.xcassets */; };
 		9B4FBB2C270367D40059CD4B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4FBB2B270367D40059CD4B /* Preview Assets.xcassets */; };
@@ -24,6 +26,7 @@
 		9B4FBB6227037D400059CD4B /* CarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB6127037D400059CD4B /* CarList.swift */; };
 		9B4FBB6427037E530059CD4B /* CarInsert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB6327037E530059CD4B /* CarInsert.swift */; };
 		9B4FBB66270389B50059CD4B /* CarUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB65270389B50059CD4B /* CarUpdate.swift */; };
+		9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF6D8A271475A0001E02C4 /* CarModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B050FC127107B25000F54B7 /* CarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarItem.swift; sourceTree = "<group>"; };
+		9B050FC3271080BF000F54B7 /* CheckLibraby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLibraby.swift; sourceTree = "<group>"; };
 		9B4FBB21270367CE0059CD4B /* CarTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4FBB24270367CE0059CD4B /* CarTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTrackerApp.swift; sourceTree = "<group>"; };
 		9B4FBB28270367D40059CD4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -64,6 +69,7 @@
 		9B4FBB6127037D400059CD4B /* CarList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarList.swift; sourceTree = "<group>"; };
 		9B4FBB6327037E530059CD4B /* CarInsert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInsert.swift; sourceTree = "<group>"; };
 		9B4FBB65270389B50059CD4B /* CarUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarUpdate.swift; sourceTree = "<group>"; };
+		9BCF6D8A271475A0001E02C4 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,9 +125,11 @@
 				9B8A7B0F270608100013B76F /* Car */,
 				9B4FBB24270367CE0059CD4B /* CarTrackerApp.swift */,
 				9B4FBB5727036EAF0059CD4B /* Main.swift */,
+				9B4FBB6127037D400059CD4B /* CarList.swift */,
 				9B4FBB592703737B0059CD4B /* Settings.swift */,
 				9B4FBB5B270373CB0059CD4B /* Account.swift */,
 				9B4FBB5D270373F00059CD4B /* Analytics.swift */,
+				9B050FC3271080BF000F54B7 /* CheckLibraby.swift */,
 				9B4FBB28270367D40059CD4B /* Assets.xcassets */,
 				9B4FBB2D270367D40059CD4B /* Persistence.swift */,
 				9B4FBB2F270367D40059CD4B /* CarTracker.xcdatamodeld */,
@@ -158,8 +166,9 @@
 		9B8A7B0F270608100013B76F /* Car */ = {
 			isa = PBXGroup;
 			children = (
-				9B4FBB6127037D400059CD4B /* CarList.swift */,
 				9B4FBB6327037E530059CD4B /* CarInsert.swift */,
+				9BCF6D8A271475A0001E02C4 /* CarModel.swift */,
+				9B050FC127107B25000F54B7 /* CarItem.swift */,
 				9B4FBB65270389B50059CD4B /* CarUpdate.swift */,
 			);
 			path = Car;
@@ -295,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B050FC4271080C0000F54B7 /* CheckLibraby.swift in Sources */,
 				9B4FBB66270389B50059CD4B /* CarUpdate.swift in Sources */,
 				9B4FBB2E270367D40059CD4B /* Persistence.swift in Sources */,
 				9B4FBB31270367D40059CD4B /* CarTracker.xcdatamodeld in Sources */,
@@ -305,8 +315,10 @@
 				9B4FBB6227037D400059CD4B /* CarList.swift in Sources */,
 				9B4FBB5627036A330059CD4B /* Car+CoreDataProperties.swift in Sources */,
 				9B4FBB5827036EAF0059CD4B /* Main.swift in Sources */,
+				9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */,
 				9B4FBB5E270373F00059CD4B /* Analytics.swift in Sources */,
 				9B4FBB25270367CE0059CD4B /* CarTrackerApp.swift in Sources */,
+				9B050FC227107B25000F54B7 /* CarItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

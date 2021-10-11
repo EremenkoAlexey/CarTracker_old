@@ -8,110 +8,164 @@
 import SwiftUI
 
 struct CarInsert: View {
-    let makeDict = ["Renault", "BMW", "Volkswagen", "Audi", "Other"]
-    let modelDict = ["Sandero", "i3", "Touareg", "A5", "Other"]
-    let yearDict = ["1995", "2018", "2019", "2020", "Other"]
-    let districtDict = ["78", "47", "178", "198", "Other"]
-    let countryDict = ["Russia", "Belarus", "Ukraine", "Georgia", "Other"]
+
     @Environment(\.managedObjectContext) private var viewContext
     @Environment (\.presentationMode) var presentationMode
 
     @Binding var showView : Bool
     
-    @State var selectedMakeIndex = 0
-    @State var selectedModelIndex = 0
-    @State var selectedYearIndex = 0
-    @State var selectedCountryIndex = 0
-    @State var selectedDistrictIndex = 0
+//    @State var selectedMakeIndex = 0
+//    @State var selectedModelIndex = 0
+//    @State var selectedYearIndex = 0
+//    @State var selectedCountryIndex = 0
+//    @State var selectedDistrictIndex = 0
+//    @State var selectedFuelTypeIndex = 0
+//    @State var selectedTransmissionIndex = 0
+//
+//    @State var fuelVolume = ""
+//
+//    @State var horsePower = ""
+//    @State var mileage = ""
+//    @State var numberVIN = ""
+//    @State var numberReg = ""
+//    //@State var color = Color(.sRGB, red: 0.98, green: 0.9, blue: 0.2)
+//
+//    @State var remarks = ""
 
-    @State var horsePower = ""
-    @State var numberVIN = ""
-    @State var numberReg = ""
-    //@State var color = Color(.sRGB, red: 0.98, green: 0.9, blue: 0.2)
-
-    @State var remarks = ""
-
+    @ObservedObject var newCar = CarModel()
     
-    func SaveCar(){
-//        guard self.incomeValue != "" else {return}
-        let newCar = Car(context: viewContext)
-        
-        newCar.make = self.makeDict[self.selectedMakeIndex]
-        newCar.model = self.modelDict[self.selectedModelIndex]
-        newCar.year = self.yearDict[self.selectedYearIndex]
-        newCar.country = self.countryDict[self.selectedCountryIndex]
-        newCar.id = UUID()
-        newCar.remark = self.remarks
-        newCar.dateAdded = Date()
-        newCar.dateUpdate = Date()
-        newCar.horsePower = Float(self.horsePower) ?? 0
-        newCar.numberReg = self.numberReg
-        newCar.numberVIN = self.numberVIN
-        newCar.district = self.countryDict[self.selectedDistrictIndex]
+//    init(viewContext: NSManagedObjectContext) {
+//            self.CarModel = CarModel(context: context)   // initialize
+//        }
+    
+    struct SelectionCell: View {
 
-//        newCar.color = self.color
-//        newCar.picture = self.picture
+        let fruit: String
+        @Binding var selectedFruit: String?
 
-        do {
-            try viewContext.save()
-            print("Car saved.")
-            presentationMode.wrappedValue.dismiss()
-
-        } catch {
-            print(error.localizedDescription)
+        var body: some View {
+            HStack {
+                Text(fruit)
+                Spacer()
+                if fruit == selectedFruit {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.accentColor)
+                }
+            }.contentShape(Rectangle())
+            .onTapGesture {
+                self.selectedFruit = self.fruit
+            }
         }
     }
+    
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Информауия об автомобиле")) {
-                    Picker(selection: $selectedMakeIndex, label: Text("Производитель")) {
-                        ForEach(0 ..< makeDict.count) {
-                                Text(self.makeDict[$0]).tag($0)
+                Section(header: Text("Информация об автомобиле")) {
+                    Picker(selection: $newCar.selectedMakeIndex, label: Text("Производитель")) {
+                        ForEach(0 ..< newCar.makeDict.count) {
+                            Text(newCar.makeDict[$0]).tag($0)
                         }
                     }
-                    Picker(selection: $selectedModelIndex, label: Text("Марка")) {
-                        ForEach(0 ..< modelDict.count) {
-                                Text(self.modelDict[$0]).tag($0)
+                    Picker(selection: $newCar.selectedModelIndex, label: Text("Марка")) {
+                        ForEach(0 ..< newCar.modelDict.count) {
+                            Text(newCar.modelDict[$0]).tag($0)
                         }
                     }
-                    Picker(selection: $selectedYearIndex, label: Text("Год выпуска")) {
-//                        ForEach((1950...2021).reversed(), id: \.self){Text(String($0))
-                        ForEach(0 ..< yearDict.count) {
-                                Text(self.yearDict[$0]).tag($0)
-                        }
-                    }
-                    TextField("Мощность, л.с.", text: $horsePower)
+//                    Picker(selection: $newCar.selectedFuelTypeIndex, label: Text("Двигатель")) {
+//                        ForEach(0 ..< newCar.fuelTypeDict.count) {
+//                            Text(newCar.fuelTypeDict[$0]).tag($0)
+//                        }
+//                    }
+
+//                    Picker(selection: $newCar.selectedTransmissionIndex, label: Text("Коробка передач")) {
+//                        ForEach(0 ..< newCar.transmissionDict.count) {
+//                            Text(newCar.transmissionDict[$0]).tag($0)
+//                        }
+//                    }
+                    
+                    EntryField(sfSymbolName: "fuelpump.circle.fill",
+                               placeHolder: "Объем бака, л./кВт.ч",
+                               prompt: "",
+                               field: $newCar.fuelVolume)
                         .keyboardType(.decimalPad)
                     
-                    TextField("VIN", text: $numberVIN)
-                }
-                    Section(header: Text("Регистрация")) {
-
-                    Picker(selection: $selectedCountryIndex, label: Text("Страна")) {
-                        ForEach(0 ..< countryDict.count) {
-                                Text(self.countryDict[$0]).tag($0)
-                        }
-                    }
-                    Picker(selection: $selectedDistrictIndex, label: Text("Регион")) {
-                        ForEach(0 ..< districtDict.count) {
-                                Text(self.districtDict[$0]).tag($0)
-                        }
-                    }
-                    TextField("Гос. номер", text: $numberReg)
-
-                    //ColorPicker("Choose color", selection: $color)
+//                    Picker(selection: $newCar.selectedYearIndex, label: Text("Год выпуска")) {
+////                        ForEach((1950...2021).reversed(), id: \.self){Text(String($0))
+//                        ForEach(0 ..< newCar.yearDict.count) {
+//                            Text(newCar.yearDict[$0]).tag($0)
+//                        }
+//                    }
+                    EntryField(sfSymbolName: "gearshape.2",
+                               placeHolder: "Мощность, л.с.",
+                               prompt: "",
+                               field: $newCar.horsePower)
+                        .keyboardType(.decimalPad)
                     
-                    TextField("Примечание", text: $remarks)
-
+                    EntryField(sfSymbolName: "speedometer",
+                               placeHolder: "Текущий пробег, км.",
+                               prompt: "",
+                               field: $newCar.mileage)
+                        .keyboardType(.decimalPad)
+                    
+                    EntryField(sfSymbolName: "v.square",
+                               placeHolder: "VIN",
+                               prompt: "",
+                               field: $newCar.numberVIN)
+                }
+                Section(header: Text("Двигатель")) {
+                    List(newCar.fuelTypeDict, id: \.self) {item in
+                        SelectionCell(fruit: item, selectedFruit: $newCar.fuelTypeChoice)
+                    }
                 }
                 
-                Button(action: {SaveCar()}
-                ) {
+                Section(header: Text("Коробка передач")) {
+                    List(newCar.transmissionDict, id: \.self) {item in
+                        SelectionCell(fruit: item, selectedFruit: $newCar.transmissionChoice)
+                    }
+                }
+                Picker(selection: $newCar.selectedYearIndex, label: Text("Год выпуска")) {
+//                        ForEach((1950...2021).reversed(), id: \.self){Text(String($0))
+                    ForEach(0 ..< newCar.yearDict.count) {
+                        Text(newCar.yearDict[$0]).tag($0)
+                    }
+                }
+
+                    Section(header: Text("Регистрация")) {
+
+                        Picker(selection: $newCar.selectedCountryIndex, label: Text("Страна")) {
+                            ForEach(0 ..< newCar.countryDict.count) {
+                                Text(newCar.countryDict[$0]).tag($0)
+                        }
+                    }
+                        Picker(selection: $newCar.selectedDistrictIndex, label: Text("Регион")) {
+                            ForEach(0 ..< newCar.districtDict.count) {
+                                Text(newCar.districtDict[$0]).tag($0)
+                        }
+                    }
+                    EntryField(sfSymbolName: "number",
+                               placeHolder: "Гос. номер",
+                               prompt: "",
+                               field: $newCar.numberReg)
+                    //ColorPicker("Choose color", selection: $color)
+                }
+                
+                Button(action: {
+                    newCar.SaveCar(viewContext)
+//                    if newCar.SaveCar(){
+                        presentationMode.wrappedValue.dismiss()
+//                    }
+//                    else{
+//                        print("show alert")
+//                    }
+                })
+                {
                     Text("Добавить")
                 }
             }
                 .navigationTitle("Добавление авто")
+        }.toolbar {
+            EditButton()
         }
     }
 }
