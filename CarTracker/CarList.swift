@@ -7,9 +7,23 @@
 
 import SwiftUI
 
+
 struct CarList: View {
+    @State private var age = Int()
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            Spacer()
+            Divider()
+            Picker(selection: $age, label: Text("Age")) {
+                 ForEach(0 ..< 100) { number in
+                      Text("\(number)")
+                 }
+            }.pickerStyle(WheelPickerStyle())
+            .frame(maxWidth: .infinity)
+            .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
+        }
+//        WheelKeyboard(year: $age)
     }
 }
 

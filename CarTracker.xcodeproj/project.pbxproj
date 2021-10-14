@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9B050FC227107B25000F54B7 /* CarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B050FC127107B25000F54B7 /* CarItem.swift */; };
+		9B050FC227107B25000F54B7 /* CarStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B050FC127107B25000F54B7 /* CarStruct.swift */; };
 		9B050FC4271080C0000F54B7 /* CheckLibraby.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B050FC3271080BF000F54B7 /* CheckLibraby.swift */; };
 		9B4FBB25270367CE0059CD4B /* CarTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB24270367CE0059CD4B /* CarTrackerApp.swift */; };
 		9B4FBB29270367D40059CD4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4FBB28270367D40059CD4B /* Assets.xcassets */; };
@@ -47,7 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9B050FC127107B25000F54B7 /* CarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarItem.swift; sourceTree = "<group>"; };
+		9B050FC127107B25000F54B7 /* CarStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarStruct.swift; sourceTree = "<group>"; };
 		9B050FC3271080BF000F54B7 /* CheckLibraby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLibraby.swift; sourceTree = "<group>"; };
 		9B4FBB21270367CE0059CD4B /* CarTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4FBB24270367CE0059CD4B /* CarTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTrackerApp.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			children = (
 				9B4FBB6327037E530059CD4B /* CarInsert.swift */,
 				9BCF6D8A271475A0001E02C4 /* CarModel.swift */,
-				9B050FC127107B25000F54B7 /* CarItem.swift */,
+				9B050FC127107B25000F54B7 /* CarStruct.swift */,
 				9B4FBB65270389B50059CD4B /* CarUpdate.swift */,
 			);
 			path = Car;
@@ -318,7 +318,7 @@
 				9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */,
 				9B4FBB5E270373F00059CD4B /* Analytics.swift in Sources */,
 				9B4FBB25270367CE0059CD4B /* CarTrackerApp.swift in Sources */,
-				9B050FC227107B25000F54B7 /* CarItem.swift in Sources */,
+				9B050FC227107B25000F54B7 /* CarStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
