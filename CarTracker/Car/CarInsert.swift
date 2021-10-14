@@ -14,140 +14,104 @@ struct CarInsert: View {
 
     @Binding var showView : Bool
     
-//    @State var selectedMakeIndex = 0
-//    @State var selectedModelIndex = 0
-//    @State var selectedYearIndex = 0
-//    @State var selectedCountryIndex = 0
-//    @State var selectedDistrictIndex = 0
-//    @State var selectedFuelTypeIndex = 0
-//    @State var selectedTransmissionIndex = 0
-//
-//    @State var fuelVolume = ""
-//
-//    @State var horsePower = ""
-//    @State var mileage = ""
-//    @State var numberVIN = ""
-//    @State var numberReg = ""
-//    //@State var color = Color(.sRGB, red: 0.98, green: 0.9, blue: 0.2)
-//
-//    @State var remarks = ""
-
     @ObservedObject var newCar = CarModel()
-    
-//    init(viewContext: NSManagedObjectContext) {
-//            self.CarModel = CarModel(context: context)   // initialize
-//        }
-    
-    struct SelectionCell: View {
 
-        let fruit: String
-        @Binding var selectedFruit: String?
-
-        var body: some View {
-            HStack {
-                Text(fruit)
-                Spacer()
-                if fruit == selectedFruit {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.accentColor)
-                }
-            }.contentShape(Rectangle())
-            .onTapGesture {
-                self.selectedFruit = self.fruit
-            }
-        }
-    }
+    //@State private var isEditing = false
     
+    @State private var showYearSelector = false
+    @State private var showCountrySelector = false
+
     var body: some View {
+        ZStack{
         NavigationView {
             Form {
                 Section(header: Text("Информация об автомобиле")) {
-                    Picker(selection: $newCar.selectedMakeIndex, label: Text("Производитель")) {
-                        ForEach(0 ..< newCar.makeDict.count) {
-                            Text(newCar.makeDict[$0]).tag($0)
-                        }
-                    }
-                    Picker(selection: $newCar.selectedModelIndex, label: Text("Марка")) {
-                        ForEach(0 ..< newCar.modelDict.count) {
-                            Text(newCar.modelDict[$0]).tag($0)
-                        }
-                    }
-//                    Picker(selection: $newCar.selectedFuelTypeIndex, label: Text("Двигатель")) {
-//                        ForEach(0 ..< newCar.fuelTypeDict.count) {
-//                            Text(newCar.fuelTypeDict[$0]).tag($0)
-//                        }
-//                    }
+   
 
-//                    Picker(selection: $newCar.selectedTransmissionIndex, label: Text("Коробка передач")) {
-//                        ForEach(0 ..< newCar.transmissionDict.count) {
-//                            Text(newCar.transmissionDict[$0]).tag($0)
-//                        }
-//                    }
+                    // IMPORTANT: use right combination of placeHolder and prompt to show right
+                    if newCar.fuelTypeChoice == "Электро"{
+                        EntrySlider(sfSymbolName: "fuelpump.circle.fill",
+                                    placeHolder: "Объем батареи, кВт.ч",
+                                    prompt: newCar.promptFuelVolume,
+                                    field: $newCar.fuelVolume)
+
+                    }
+                    else{
+                        EntrySlider(sfSymbolName: "fuelpump.circle.fill",
+                                    placeHolder: "Объем бака, л.",
+                                    prompt: newCar.promptFuelVolume,
+                                    field: $newCar.fuelVolume)
+                    }
                     
-                    EntryField(sfSymbolName: "fuelpump.circle.fill",
-                               placeHolder: "Объем бака, л./кВт.ч",
-                               prompt: "",
-                               field: $newCar.fuelVolume)
-                        .keyboardType(.decimalPad)
-                    
-//                    Picker(selection: $newCar.selectedYearIndex, label: Text("Год выпуска")) {
-////                        ForEach((1950...2021).reversed(), id: \.self){Text(String($0))
-//                        ForEach(0 ..< newCar.yearDict.count) {
-//                            Text(newCar.yearDict[$0]).tag($0)
-//                        }
-//                    }
                     EntryField(sfSymbolName: "gearshape.2",
                                placeHolder: "Мощность, л.с.",
-                               prompt: "",
+                               prompt: newCar.promptHorsePower,
+                               keyboard: "number",
                                field: $newCar.horsePower)
-                        .keyboardType(.decimalPad)
                     
                     EntryField(sfSymbolName: "speedometer",
                                placeHolder: "Текущий пробег, км.",
-                               prompt: "",
+                               prompt: newCar.promptMileage,
+                               keyboard: "number",
                                field: $newCar.mileage)
-                        .keyboardType(.decimalPad)
                     
                     EntryField(sfSymbolName: "v.square",
                                placeHolder: "VIN",
-                               prompt: "",
+                               prompt: newCar.promptOptional,
                                field: $newCar.numberVIN)
+                    
+                    EntryField(sfSymbolName: "number",
+                               placeHolder: "Гос. номер",
+                               prompt: newCar.promptOptional,
+                               field: $newCar.numberReg)
+                
+
+                    EntryWheel(sfSymbolName: "calendar",
+                               placeHolder: "Год выпуска",
+                               prompt: "",
+                               internalType: "year",
+                               field: $newCar.year,
+                               selector: $showYearSelector)
+                    
+                    
+                    EntryWheel(sfSymbolName: "map",
+                               placeHolder: "Страна",
+                               prompt: "",
+                               internalType: "country",
+                               field: $newCar.selectedCountryIndex,
+                               selector: $showCountrySelector)
+                    
                 }
-                Section(header: Text("Двигатель")) {
+                Section(header: Text("Двигатель"), footer: Text(newCar.promptFuelType)) {
                     List(newCar.fuelTypeDict, id: \.self) {item in
-                        SelectionCell(fruit: item, selectedFruit: $newCar.fuelTypeChoice)
+                        SelectionCell(item: item, selectedItem: $newCar.fuelTypeChoice)
+                    }
+                }
+                Section(header: Text("Коробка передач"), footer: Text(newCar.promptTransmissionType)) {
+                    List(newCar.transmissionDict, id: \.self) {item in
+                        SelectionCell(item: item, selectedItem: $newCar.transmissionChoice)
                     }
                 }
                 
-                Section(header: Text("Коробка передач")) {
-                    List(newCar.transmissionDict, id: \.self) {item in
-                        SelectionCell(fruit: item, selectedFruit: $newCar.transmissionChoice)
-                    }
-                }
-                Picker(selection: $newCar.selectedYearIndex, label: Text("Год выпуска")) {
-//                        ForEach((1950...2021).reversed(), id: \.self){Text(String($0))
-                    ForEach(0 ..< newCar.yearDict.count) {
-                        Text(newCar.yearDict[$0]).tag($0)
-                    }
-                }
 
-                    Section(header: Text("Регистрация")) {
 
-                        Picker(selection: $newCar.selectedCountryIndex, label: Text("Страна")) {
-                            ForEach(0 ..< newCar.countryDict.count) {
-                                Text(newCar.countryDict[$0]).tag($0)
+                    Section(header: Text("надо переделать")) {
+                        Picker(selection: $newCar.selectedMakeIndex, label: Text("Производитель")) {
+                            ForEach(0 ..< newCar.makeDict.count) {
+                                Text(newCar.makeDict[$0]).tag($0)
+                            }
                         }
-                    }
+                        Picker(selection: $newCar.selectedModelIndex, label: Text("Марка")) {
+                            ForEach(0 ..< newCar.modelDict.count) {
+                                Text(newCar.modelDict[$0]).tag($0)
+                            }
+                        }
+
                         Picker(selection: $newCar.selectedDistrictIndex, label: Text("Регион")) {
                             ForEach(0 ..< newCar.districtDict.count) {
                                 Text(newCar.districtDict[$0]).tag($0)
                         }
                     }
-                    EntryField(sfSymbolName: "number",
-                               placeHolder: "Гос. номер",
-                               prompt: "",
-                               field: $newCar.numberReg)
-                    //ColorPicker("Choose color", selection: $color)
                 }
                 
                 Button(action: {
@@ -162,11 +126,37 @@ struct CarInsert: View {
                 {
                     Text("Добавить")
                 }
+                
+                .opacity(newCar.isReadyInsert ? 1 : 0.6)
+                .disabled(!newCar.isReadyInsert)
             }
                 .navigationTitle("Добавление авто")
-        }.toolbar {
-            EditButton()
+            
         }
+        // Picker overlay only displayed when year field tapped
+        WheelKeyboard(pickerValue: $newCar.year,
+                      showSelector: $showYearSelector,
+                      placeholder: "Год выпуска",
+                      internalType: "year")
+            .opacity(showYearSelector ? 1 : 0)
+            .animation(.easeIn)
+        WheelKeyboard(pickerValue: $newCar.selectedCountryIndex,
+                      showSelector: $showCountrySelector,
+                      placeholder: "Страна",
+                      internalType: "country")
+                .opacity(showCountrySelector ? 1 : 0)
+                .animation(.easeIn)
+            //        WheelKeyboardString(pickerValue: $newCar.country,
+//                            showSelector: $showCountrySelector,
+//                            placeholder: "Страна",
+//                            internalType: "country")
+//            .opacity(showCountrySelector ? 1 : 0)
+//            .animation(.easeIn)
+        }
+//            .toolbar {
+//            EditButton()
+//            }
+        
     }
 }
 
