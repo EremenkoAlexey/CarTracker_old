@@ -36,7 +36,7 @@ struct Analytics: View {
                     List {
                         ScrollView(.horizontal) {
                             HStack{
-                                InsertCarCard()
+                                InsertCarCard(showSheet: $showCarInsert)
                             }.padding()
                         }
                     }

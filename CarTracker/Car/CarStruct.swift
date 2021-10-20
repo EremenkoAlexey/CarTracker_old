@@ -37,16 +37,23 @@ struct SmallCarCard: View {
 }
 
 struct InsertCarCard: View {
-    
+    @Binding var showSheet: Bool
     var body: some View {
         ZStack {
             Color.white
                 .cornerRadius(8)
             VStack{
                 Text("Добавить авто")
-                Image(systemName: "plus.circle")
-                    .foregroundColor(.gray)
-                    .font(.headline)
+                Button(action: {
+                    print("Open order sheet")
+                    showSheet = true
+                }, label: {
+                    Image(systemName: "plus.circle")
+                        .imageScale(.large)
+                })
+//                Image(systemName: "plus.circle")
+//                    .foregroundColor(.gray)
+//                    .font(.headline)
             }
         }
         .frame(width: 300, height: 100)
@@ -68,12 +75,12 @@ struct EntryField: View {
                     .font(.headline)
                 if keyboard == "number"{
                     TextField(placeHolder, text: $field)
-                        .autocapitalization(.none)
                         .keyboardType(.decimalPad)
                 }
                 else{
                     TextField(placeHolder, text: $field)
-                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.allCharacters)
                 }
             }
             .padding(8)
@@ -123,10 +130,9 @@ struct EntryWheel: View {
     var sfSymbolName: String
     var placeHolder: String
     var prompt: String
-    var internalType: String
+    var dictionary : [String]
     @Binding var field: Int
     @Binding var selector: Bool
-    let countryDict = ["Россия", "Беларусь", "Украина", "Другая"]
 
     var body: some View {
         VStack(alignment: .leading){
@@ -136,22 +142,11 @@ struct EntryWheel: View {
                     .font(.headline)
                 Text(placeHolder)
                 Spacer()
-                switch internalType{
-                case "year":
                     Button(action: {
                         selector.toggle()
                     }) {
-                        Text(String(field))
+                        Text(String(dictionary[field]))
                     }
-                case "country":
-                    Button(action: {
-                        selector.toggle()
-                    }) {
-                        Text(String(countryDict[field]))
-                    }
-                default:
-                    Spacer()
-                }
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
                     .font(.headline)
@@ -167,6 +162,41 @@ struct EntryWheel: View {
         }
     }
 }
+
+struct WheelKeyboard: View {
+    
+    @Binding var pickerValue: Int
+    @Binding var showSelector:Bool
+    var placeholder: String
+    var dictionary: [String]
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            Divider()
+            HStack{
+                Text(placeholder)
+                .padding(10)
+                Spacer()
+                Button(action: {showSelector.toggle()}) {
+                    Text("Готово")
+                }
+                .padding(10)
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color(UIColor.systemGroupedBackground))
+                Picker(selection: $pickerValue, label: Text(placeholder)) {
+                    ForEach(0 ..< dictionary.count, id: \.self) { //value in
+                        Text(dictionary[$0]).tag($0)
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(maxWidth: .infinity)
+                .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
+        }
+    }
+}
+
 
 
 struct SelectionCell: View {
@@ -189,70 +219,18 @@ struct SelectionCell: View {
     }
 }
 
-struct WheelKeyboard: View {
-    
-    @Binding var pickerValue: Int
-    @Binding var showSelector:Bool
-    var placeholder: String
-    var internalType: String
-    
-    
-    let currentYear = Calendar.current.dateComponents([.year], from: Date()).year!
-    let countryDict = ["Россия", "Беларусь", "Украина", "Другая"]
 
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            Divider()
-            HStack{
-                Text(placeholder)
-                .padding(10)
-                Spacer()
-                Button(action: {showSelector.toggle()}) {
-                    Text("Готово")
-                }
-                .padding(10)
-            }
-            .frame(maxWidth: .infinity)
-            .background(Color(UIColor.systemGroupedBackground))
-            switch internalType {
-                case "year":
-                    Picker(selection: $pickerValue, label: Text(placeholder)) {
-                        ForEach(((currentYear-100)...currentYear).reversed(), id: \.self) { year in
-                              Text("\(String(year))")
-                         }
-                    }.pickerStyle(WheelPickerStyle())
-                    .frame(maxWidth: .infinity)
-                    .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
-            case "country":
-                Picker(selection: $pickerValue, label: Text(placeholder)) {
-                    ForEach(0 ..< countryDict.count, id: \.self) { //value in
-                        Text(countryDict[$0]).tag($0)
-                    }
-                }
-                .pickerStyle(WheelPickerStyle())
-                .frame(maxWidth: .infinity)
-                .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
-            default: Spacer()
-            }
-        }
-    }
-}
-
-struct pickertodo: View{
-    var sfSymbolName: String
+struct SelectionList: View{
     var placeHolder: String
     var prompt: String
-    var internalType: String
-    @Binding var field: Int
-    @Binding var selector: Bool
-    
+    var dictionary: [String]
+    @Binding var field: String?
+
     var body: some View{
         Section(header: Text(placeHolder), footer: Text(prompt)) {
-//            List(newCar.fuelTypeDict, id: \.self) {item in
-//                SelectionCell(item: item, selectedItem: $newCar.fuelTypeChoice)
-//            }
+            List(dictionary, id: \.self) {item in
+                SelectionCell(item: item, selectedItem: $field)
+            }
         }
     }
 }
