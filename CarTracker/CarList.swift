@@ -9,21 +9,26 @@ import SwiftUI
 
 
 struct CarList: View {
-    @State private var age = Int()
+    @State private var field : String = ""
+//        .textCase(.uppercase)
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            Divider()
-            Picker(selection: $age, label: Text("Age")) {
-                 ForEach(0 ..< 100) { number in
-                      Text("\(number)")
-                 }
-            }.pickerStyle(WheelPickerStyle())
-            .frame(maxWidth: .infinity)
-            .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
-        }
-//        WheelKeyboard(year: $age)
+//        VStack(spacing: 0) {
+//            Spacer()
+//            Divider()
+//            Picker(selection: $age, label: Text("Age")) {
+//                 ForEach(0 ..< 100) { number in
+//                      Text("\(number)")
+//                 }
+//            }.pickerStyle(WheelPickerStyle())
+//            .frame(maxWidth: .infinity)
+//            .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
+//        }
+        TextField("test", text: $field)
+//                        .autocapitalization(.none)
+            .disableAutocorrection(true)
+            .autocapitalization(.allCharacters)
+//            .textCase(.uppercase)//        WheelKeyboard(year: $age)
     }
 }
 

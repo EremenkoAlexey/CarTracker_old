@@ -9,41 +9,51 @@ import Foundation
 import CoreData
 import SwiftUI
 
+let defaultValue = "Выбрать"
+
 class CarModel : ObservableObject{
+    
     
     let makeDict = ["Renault", "BMW", "Volkswagen", "Audi", "Other"]
     let modelDict = ["Sandero", "i3", "Touareg", "A5", "Other"]
-    let yearDict = ["1995", "2018", "2019", "2020", "Other"]
-    let districtDict = ["78", "47", "178", "198", "Other"]
-    
-    
-    let fuelTypeDict = ["Бензин", "Дизель", "Гибрид", "Электро"]
-    @Published var fuelTypeChoice: String?
-    //    @Published var fuelTypeChoice: String = "Бензин"
-    
-    let transmissionDict = ["АКПП", "МКПП"]
-    //    @Published var transmissionChoice: String = "АКПП"
-    @Published var transmissionChoice: String?
-    
+//    let districtDict = ["78", "47", "178", "198", "Other"]
     @Published var selectedMakeIndex = 0
     @Published var selectedModelIndex = 0
-    @Published var selectedYearIndex = 0
+//    @Published var selectedDistrictIndex = 0
+    
+//    @Published var transmissionChoice: String?
+//    @Published var fuelTypeChoice: String?
+    
+    let countryDict = [defaultValue, "Россия", "Беларусь", "Украина", "Другая"]
     @Published var selectedCountryIndex = 0
-    @Published var selectedDistrictIndex = 0
-    @Published var selectedFuelTypeIndex = 0
+//    @Published var country : String = defaultValue
+    
+    let transmissionDict = [defaultValue, "АКПП", "МКПП", "Робот", "Вариатор"]
     @Published var selectedTransmissionIndex = 0
+//    @Published var transmission : String = defaultValue
+
+    var yearDict : [String] = [defaultValue]
+    @Published var selectedYearIndex = 0
+    @Published var year : Int = Calendar.current.dateComponents([.year], from: Date()).year!
     
+    let fuelTypeDict = [defaultValue, "Бензин", "Дизель", "Гибрид", "Электро", "Газ", "Пропан", "Метан"]
+    @Published var selectedFuelTypeIndex = 0
+//    @Published var fuelType : String = defaultValue
+
     @Published var fuelVolume : Float = 0.0
-    
     @Published var horsePower = ""
     @Published var mileage = ""
     @Published var numberVIN = ""
     @Published var numberReg = ""
-    
     @Published var remarks = ""
     
-    @Published var year : Int = Calendar.current.dateComponents([.year], from: Date()).year!
-    @Published var country : String = "Россия"
+    func GetYearDict()->[String]{
+//        var tempYearDict2 = ((Calendar.current.dateComponents([.year], from: Date()).year!-100)...Calendar.current.dateComponents([.year], from: Date()).year!).reversed().map { String($0) }
+        var tempYearDict = ((year-100)...year).reversed().map { String($0) }
+        tempYearDict.insert(defaultValue, at: 0)
+        return tempYearDict
+    }
+    
     func SaveCar(_ context: NSManagedObjectContext){
         //        guard self.incomeValue != "" else {return}
         let newCar = Car(context: context)
@@ -53,7 +63,7 @@ class CarModel : ObservableObject{
 //        newCar.year = self.yearDict[self.selectedYearIndex]
         newCar.year = String(self.year)
 //        newCar.country = self.countryDict[self.selectedCountryIndex]
-        newCar.country = self.country
+//        newCar.country = self.country
         newCar.id = UUID()
         newCar.remark = self.remarks
         newCar.dateAdded = Date()
@@ -65,8 +75,8 @@ class CarModel : ObservableObject{
         
         //        newCar.transmissionType = self.transmissionDict[self.selectedTransmissionIndex]
         
-        newCar.transmissionType = self.transmissionChoice!
-        newCar.fuelType = self.fuelTypeChoice!
+//        newCar.transmissionType = self.transmissionChoice!
+//        newCar.fuelType = self.fuelTypeChoice!
         //        newCar.transmissionType = self.transmissionChoice
         //        newCar.fuelType = self.fuelTypeChoice
         
@@ -98,7 +108,8 @@ class CarModel : ObservableObject{
     }
     
     func isFuelType() -> Bool {
-        if fuelTypeChoice != nil{
+        if selectedFuelTypeIndex != 0 {
+//        if fuelType != nil && fuelType != defaultValue{
             return true
         }
         else{
@@ -115,7 +126,7 @@ class CarModel : ObservableObject{
     }
     
     func isTransmissionType() -> Bool {
-        if transmissionChoice != nil{
+        if selectedTransmissionIndex != 0 {
             return true
         }
         else{
@@ -123,6 +134,23 @@ class CarModel : ObservableObject{
         }
     }
 
+    var promptCountry: String {
+        if isCountry() {
+            return ""
+        } else {
+            return "Выберите страну регистрации"
+        }
+    }
+    
+    func isCountry() -> Bool {
+        if selectedCountryIndex != 0 {
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
     var promptFuelVolume: String {
         if isFuelVolume() {
             return ""
@@ -178,12 +206,54 @@ class CarModel : ObservableObject{
         return "Необязательное поле"
     }
     
+    func isNumberRegValid() -> Bool {
+        let testDefault = NSPredicate(format: "SELF MATCHES %@",
+                                      "[a-z0-9]{1,15}")
+        
+        let testRussia = NSPredicate(format: "SELF MATCHES %@",
+                                     "^[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0423\\u0425]{1}[0-9]{3}[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0423\\u0425]{2}\\u0020([0-9]{2}|[1-9]{1}[0-9]{2})$")
+
+        let testUkraine = NSPredicate(format: "SELF MATCHES %@",
+                                     "^[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0425\\u0406]{2}\\u0020[0-9]{4}[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0425\\u0406]{2}$")
+        
+        let testBelarus = NSPredicate(format: "SELF MATCHES %@",
+                                     "^[0-9]{4}[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0425\\u0406]{2}\\u0020[0-8]{1}$")
+
+        switch selectedCountryIndex{
+        case 1: // Russia
+            return testRussia.evaluate(with: numberReg)
+        case 2: // Belarus
+            return testBelarus.evaluate(with: numberReg)
+        case 3: // Ukraine
+            return testUkraine.evaluate(with: numberReg)
+        default:
+            return testDefault.evaluate(with: numberReg)
+        }
+    }
+    
+    var promptNumberReg: String {
+        if isNumberRegValid() {
+            return ""
+        } else {
+            switch selectedCountryIndex{
+            case 1: // Russia
+                return "Введите номер в формате А123АА 77"
+            case 2: // Belarus
+                return "Введите номер в формате 1234АА 7"
+            case 3: // Ukraine
+                return "Введите номер в формате AA 1234AA"
+            default:
+                return "Неверный формат номера"
+            }        }
+    }
+    
     var isReadyInsert: Bool {
         if !isMileage() ||
             !isFuelType() ||
             !isFuelVolume() ||
             !isTransmissionType() ||
-            !isHorsePower(){
+            !isHorsePower() ||
+            !isNumberRegValid(){
             return false
         }
         return true
