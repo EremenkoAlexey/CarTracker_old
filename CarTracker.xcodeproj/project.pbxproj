@@ -26,6 +26,8 @@
 		9B4FBB6227037D400059CD4B /* CarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB6127037D400059CD4B /* CarList.swift */; };
 		9B4FBB6427037E530059CD4B /* CarInsert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB6327037E530059CD4B /* CarInsert.swift */; };
 		9B4FBB66270389B50059CD4B /* CarUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB65270389B50059CD4B /* CarUpdate.swift */; };
+		9B6235972721B52100350DC2 /* Cars.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B6235962721B52100350DC2 /* Cars.json */; };
+		9B62359A2721C38F00350DC2 /* CarsTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B6235992721C38F00350DC2 /* CarsTest.json */; };
 		9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF6D8A271475A0001E02C4 /* CarModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 		9B4FBB6127037D400059CD4B /* CarList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarList.swift; sourceTree = "<group>"; };
 		9B4FBB6327037E530059CD4B /* CarInsert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInsert.swift; sourceTree = "<group>"; };
 		9B4FBB65270389B50059CD4B /* CarUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarUpdate.swift; sourceTree = "<group>"; };
+		9B6235962721B52100350DC2 /* Cars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cars.json; sourceTree = "<group>"; };
+		9B6235992721C38F00350DC2 /* CarsTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CarsTest.json; sourceTree = "<group>"; };
 		9BCF6D8A271475A0001E02C4 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,6 +145,8 @@
 		9B4FBB2A270367D40059CD4B /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				9B6235962721B52100350DC2 /* Cars.json */,
+				9B6235992721C38F00350DC2 /* CarsTest.json */,
 				9B4FBB2B270367D40059CD4B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -280,6 +286,8 @@
 			files = (
 				9B4FBB2C270367D40059CD4B /* Preview Assets.xcassets in Resources */,
 				9B4FBB29270367D40059CD4B /* Assets.xcassets in Resources */,
+				9B62359A2721C38F00350DC2 /* CarsTest.json in Resources */,
+				9B6235972721B52100350DC2 /* Cars.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

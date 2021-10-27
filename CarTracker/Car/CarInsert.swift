@@ -29,10 +29,6 @@ struct CarInsert: View {
                 Form {
                     Section(header: Text("Информация об автомобиле")) {
                         
-                        
-                        // IMPORTANT: use right combination of placeHolder and prompt to show right
-                        
-                        
                         EntryField(sfSymbolName: "hurricane",
                                    placeHolder: "Мощность, л.с.",
                                    prompt: newCar.promptHorsePower,
@@ -86,6 +82,7 @@ struct CarInsert: View {
                                    dictionary: newCar.fuelTypeDict,
                                    field: $newCar.selectedFuelTypeIndex,
                                    selector: $showFuelTypeSelector)
+                        
                         if newCar.selectedFuelTypeIndex == 4{ //
                             EntrySlider(sfSymbolName: "fuelpump.circle.fill",
                                         placeHolder: "Объем батареи, кВт.ч",
@@ -100,18 +97,28 @@ struct CarInsert: View {
                                         field: $newCar.fuelVolume)
                         }
                     }
-                    Section(header: Text("надо переделать")) {
-                        Picker(selection: $newCar.selectedMakeIndex, label: Text("Производитель")) {
-                            ForEach(0 ..< newCar.makeDict.count) {
-                                Text(newCar.makeDict[$0]).tag($0)
-                            }
-                        }
-                        Picker(selection: $newCar.selectedModelIndex, label: Text("Марка")) {
-                            ForEach(0 ..< newCar.modelDict.count) {
-                                Text(newCar.modelDict[$0]).tag($0)
-                            }
-                        }
+//                    CarModels()
+                    Section(header: Text("Автомобиль")) {
+
+                    CarModels(makePickerValue: $newCar.selectedMakeIndex,
+                              makeDictionary: newCar.makeDict,
+                              modelPickerValue: $newCar.selectedModelIndex,
+                              modelDictionary: newCar.modelDict)
                     }
+//
+//                    Section(header: Text("надо переделать")) {
+//                        
+//                        Picker(selection: $newCar.selectedMakeIndex, label: Text("Производитель")) {
+//                            ForEach(0 ..< newCar.makeDict.count) {
+//                                Text(newCar.makeDict[$0]).tag($0)
+//                            }
+//                        }
+//                        Picker(selection: $newCar.selectedModelIndex, label: Text("Марка")) {
+//                            ForEach(0 ..< newCar.modelDict.count) {
+//                                Text(newCar.modelDict[$0]).tag($0)
+//                            }
+//                        }
+//                    }
                     
                     Button(action: {
                         newCar.SaveCar(viewContext)
