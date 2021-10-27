@@ -11,26 +11,57 @@ import SwiftUI
 
 let defaultValue = "Выбрать"
 
+//class ContentViewModel: ObservableObject {
+//    let carData: [Manufacturer]
+//
+//    @Published var selectedManufacturer = -1 {
+//        didSet {
+//            // reset the currently selected model to "None" when the manufacturer changes
+//            selectedModel = -1
+//        }
+//    }
+//    @Published var selectedModel = -1
+//    var models: [Model] {
+//        if (0 ..< carData.count).contains(selectedManufacturer) {
+//            return carData[selectedManufacturer].models
+//        }
+//
+//        return []
+//    }
+
+
+//}
+
 class CarModel : ObservableObject{
     
-    
-    let makeDict = ["Renault", "BMW", "Volkswagen", "Audi", "Other"]
-    let modelDict = ["Sandero", "i3", "Touareg", "A5", "Other"]
-//    let districtDict = ["78", "47", "178", "198", "Other"]
-    @Published var selectedMakeIndex = 0
-    @Published var selectedModelIndex = 0
-//    @Published var selectedDistrictIndex = 0
-    
-//    @Published var transmissionChoice: String?
-//    @Published var fuelTypeChoice: String?
+    init() {
+        let url = Bundle.main.url(forResource: "Cars", withExtension: "json")!
+        let data = try! Data(contentsOf: url)
+        makeDict = try! JSONDecoder().decode([Manufacturer].self, from: data)
+    }
+   // let makeDict = ["Renault", "BMW", "Volkswagen", "Audi", "Other"]
+    let makeDict: [Manufacturer]
+//    let modelDict = ["Sandero", "i3", "Touareg", "A5", "Other"]
+    var modelDict: [Model] {
+        if (0 ..< makeDict.count).contains(selectedMakeIndex) {
+            return makeDict[selectedMakeIndex].models
+        }
+
+        return []
+    }
+    @Published var selectedMakeIndex = -1{
+    didSet {
+        // reset the currently selected model to "None" when the manufacturer changes
+        selectedModelIndex = -1
+    }
+    }
+    @Published var selectedModelIndex = -1
     
     let countryDict = [defaultValue, "Россия", "Беларусь", "Украина", "Другая"]
     @Published var selectedCountryIndex = 0
-//    @Published var country : String = defaultValue
     
     let transmissionDict = [defaultValue, "АКПП", "МКПП", "Робот", "Вариатор"]
     @Published var selectedTransmissionIndex = 0
-//    @Published var transmission : String = defaultValue
 
     var yearDict : [String] = [defaultValue]
     @Published var selectedYearIndex = 0
@@ -38,7 +69,6 @@ class CarModel : ObservableObject{
     
     let fuelTypeDict = [defaultValue, "Бензин", "Дизель", "Гибрид", "Электро", "Газ", "Пропан", "Метан"]
     @Published var selectedFuelTypeIndex = 0
-//    @Published var fuelType : String = defaultValue
 
     @Published var fuelVolume : Float = 0.0
     @Published var horsePower = ""
@@ -48,7 +78,6 @@ class CarModel : ObservableObject{
     @Published var remarks = ""
     
     func GetYearDict()->[String]{
-//        var tempYearDict2 = ((Calendar.current.dateComponents([.year], from: Date()).year!-100)...Calendar.current.dateComponents([.year], from: Date()).year!).reversed().map { String($0) }
         var tempYearDict = ((year-100)...year).reversed().map { String($0) }
         tempYearDict.insert(defaultValue, at: 0)
         return tempYearDict
@@ -58,8 +87,8 @@ class CarModel : ObservableObject{
         //        guard self.incomeValue != "" else {return}
         let newCar = Car(context: context)
         
-        newCar.make = self.makeDict[self.selectedMakeIndex]
-        newCar.model = self.modelDict[self.selectedModelIndex]
+//        newCar.make = self.makeDict[self.selectedMakeIndex]
+//        newCar.model = self.modelDict[self.selectedModelIndex]
 //        newCar.year = self.yearDict[self.selectedYearIndex]
         newCar.year = String(self.year)
 //        newCar.country = self.countryDict[self.selectedCountryIndex]

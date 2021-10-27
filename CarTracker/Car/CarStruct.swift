@@ -7,6 +7,105 @@
 
 import SwiftUI
 
+struct Manufacturer: Decodable {
+    let brand: String
+    let models: [Model]
+}
+
+struct Model: Decodable {
+    let name: String
+}
+struct CarModels: View {
+    
+    @Binding var makePickerValue: Int
+    var makeDictionary: [Manufacturer]
+    @Binding var modelPickerValue: Int
+    var modelDictionary: [Model]
+    
+//    @ObservedObject private var model = ContentViewModel()
+
+    var body: some View {
+        VStack {
+//            if model.selectedManufacturer == -1 {
+//                Text("No Brand Selected")
+//            } else {
+//                Text("\(model.carData[model.selectedManufacturer].brand)")
+//            }
+
+            Picker(selection: $makePickerValue, label: Text("Марка")) {
+                Text(defaultValue)
+                    .tag(-1)
+
+                ForEach(0 ..< makeDictionary.count
+                ) { carIndex in
+                    Text(self.makeDictionary[carIndex].brand)
+                        .tag(carIndex)
+//                    , id: \.self) { //value in
+//                        Text(makeDictionary[$0]).tag($0)
+                    }
+                }
+            }
+
+//            if $makePickerValue != -1 {
+                Picker(selection: $modelPickerValue, label: Text("Модель")) {
+                    Text(defaultValue)
+                        .tag(-1)
+
+                    ForEach(0 ..< modelDictionary.count, id: \.self) { modelIndex in
+                        Text(self.modelDictionary[modelIndex].name)
+                            .tag(modelIndex)
+//                        Text(makeDictionary[$0]).tag($0)
+
+                    }
+                }
+//            }
+//        }
+    }
+}
+
+struct CarPicker: View {
+    
+    @Binding var pickerValue: Int
+    var dictionary: [String]
+
+    
+//    @ObservedObject private var model = ContentViewModel()
+
+    var body: some View {
+        VStack {
+//            if model.selectedManufacturer == -1 {
+                Text("No Brand Selected")
+//            } else {
+//                Text("\(model.carData[model.selectedManufacturer].brand)")
+//            }
+
+//            List(
+//            Picker(selection: $pickerValue, label: Text("Brand")) {
+//                Text("None")
+//                    .tag(-1)
+//
+//                ForEach(0 ..< dictionary.count) { carIndex in
+//                    Text(self.model.carData[carIndex].brand)
+//                        .tag(carIndex)
+//                }
+//            }
+
+//            if model.selectedManufacturer != -1 {
+//                Picker(selection: $model.selectedModel, label: Text("Model")) {
+//                    Text("None")
+//                        .tag(-1)
+//
+//                    ForEach(0 ..< model.models.count, id: \.self) { modelIndex in
+//                        Text(self.model.models[modelIndex].name)
+//                            .tag(modelIndex)
+//                    }
+//                }
+//            }
+        }
+    }
+}
+
+
 struct SmallCarCard: View {
     @ObservedObject var car: Car
     

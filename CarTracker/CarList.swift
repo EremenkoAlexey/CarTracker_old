@@ -13,8 +13,10 @@ struct CarList: View {
 //        .textCase(.uppercase)
 
     var body: some View {
+        
+//        CarModels()
 //        VStack(spacing: 0) {
-//            Spacer()
+            Spacer()
 //            Divider()
 //            Picker(selection: $age, label: Text("Age")) {
 //                 ForEach(0 ..< 100) { number in
@@ -24,10 +26,10 @@ struct CarList: View {
 //            .frame(maxWidth: .infinity)
 //            .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
 //        }
-        TextField("test", text: $field)
-//                        .autocapitalization(.none)
-            .disableAutocorrection(true)
-            .autocapitalization(.allCharacters)
+//        TextField("test", text: $field)
+////                        .autocapitalization(.none)
+//            .disableAutocorrection(true)
+//            .autocapitalization(.allCharacters)
 //            .textCase(.uppercase)//        WheelKeyboard(year: $age)
     }
 }
