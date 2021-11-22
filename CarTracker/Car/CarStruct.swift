@@ -17,12 +17,11 @@ struct Model: Decodable {
 }
 struct CarModels: View {
     
-    @Binding var makePickerValue: Int
-    var makeDictionary: [Manufacturer]
+    @Binding var manufacturerPickerValue: Int
+    var manufacturerDictionary: [Manufacturer]
     @Binding var modelPickerValue: Int
     var modelDictionary: [Model]
     
-//    @ObservedObject private var model = ContentViewModel()
 
     var body: some View {
         VStack {
@@ -31,80 +30,43 @@ struct CarModels: View {
 //            } else {
 //                Text("\(model.carData[model.selectedManufacturer].brand)")
 //            }
-
-            Picker(selection: $makePickerValue, label: Text("Марка")) {
-                Text(defaultValue)
-                    .tag(-1)
-
-                ForEach(0 ..< makeDictionary.count
-                ) { carIndex in
-                    Text(self.makeDictionary[carIndex].brand)
-                        .tag(carIndex)
-//                    , id: \.self) { //value in
-//                        Text(makeDictionary[$0]).tag($0)
-                    }
-                }
-            }
-
-//            if $makePickerValue != -1 {
-                Picker(selection: $modelPickerValue, label: Text("Модель")) {
+            HStack{
+                
+                Image(systemName: "tag")
+                    .foregroundColor(.gray)
+                    .font(.headline)
+                Picker(selection: $manufacturerPickerValue, label: Text("Марка")) {
                     Text(defaultValue)
                         .tag(-1)
 
-                    ForEach(0 ..< modelDictionary.count, id: \.self) { modelIndex in
-                        Text(self.modelDictionary[modelIndex].name)
-                            .tag(modelIndex)
-//                        Text(makeDictionary[$0]).tag($0)
-
+                    ForEach(0 ..< manufacturerDictionary.count
+                    ) { carIndex in
+                        Text(self.manufacturerDictionary[carIndex].brand)
+                            .tag(carIndex)
+                        }
                     }
                 }
-//            }
-//        }
+            }
+            
+
+            if manufacturerPickerValue != -1 {
+                HStack{
+                    Image(systemName: "car")
+                        .foregroundColor(.gray)
+                        .font(.headline)
+                    Picker(selection: $modelPickerValue, label: Text("Модель")) {
+                        Text(defaultValue)
+                            .tag(-1)
+
+                        ForEach(0 ..< modelDictionary.count, id: \.self) { modelIndex in
+                            Text(self.modelDictionary[modelIndex].name)
+                                .tag(modelIndex)
+                        }
+                    }
+                }
+            }
     }
 }
-
-struct CarPicker: View {
-    
-    @Binding var pickerValue: Int
-    var dictionary: [String]
-
-    
-//    @ObservedObject private var model = ContentViewModel()
-
-    var body: some View {
-        VStack {
-//            if model.selectedManufacturer == -1 {
-                Text("No Brand Selected")
-//            } else {
-//                Text("\(model.carData[model.selectedManufacturer].brand)")
-//            }
-
-//            List(
-//            Picker(selection: $pickerValue, label: Text("Brand")) {
-//                Text("None")
-//                    .tag(-1)
-//
-//                ForEach(0 ..< dictionary.count) { carIndex in
-//                    Text(self.model.carData[carIndex].brand)
-//                        .tag(carIndex)
-//                }
-//            }
-
-//            if model.selectedManufacturer != -1 {
-//                Picker(selection: $model.selectedModel, label: Text("Model")) {
-//                    Text("None")
-//                        .tag(-1)
-//
-//                    ForEach(0 ..< model.models.count, id: \.self) { modelIndex in
-//                        Text(self.model.models[modelIndex].name)
-//                            .tag(modelIndex)
-//                    }
-//                }
-//            }
-        }
-    }
-}
-
 
 struct SmallCarCard: View {
     @ObservedObject var car: Car
@@ -115,7 +77,7 @@ struct SmallCarCard: View {
                 .cornerRadius(8)
             VStack(alignment: .leading){
                 HStack{
-                    Text("\(car.make) ")
+                    Text("\(car.manufacturer) ")
                     Text("\(car.model)")
                 }
                 .font(.headline)
@@ -150,9 +112,6 @@ struct InsertCarCard: View {
                     Image(systemName: "plus.circle")
                         .imageScale(.large)
                 })
-//                Image(systemName: "plus.circle")
-//                    .foregroundColor(.gray)
-//                    .font(.headline)
             }
         }
         .frame(width: 300, height: 100)
@@ -161,6 +120,7 @@ struct InsertCarCard: View {
 }
 
 struct EntryField: View {
+
     var sfSymbolName: String
     var placeHolder: String
     var prompt: String
@@ -192,6 +152,54 @@ struct EntryField: View {
     }
 }
 
+struct RoundEntryField: View {
+
+    var sfSymbolName: String
+    var placeHolder: String
+    var prompt: String
+    var keyboard: String?
+    @Binding var field: String
+    var isValid: Bool
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack{
+                Image(systemName: sfSymbolName)
+                    .foregroundColor(.gray)
+                    .font(.headline)
+                if keyboard == "number"{
+                    TextField(placeHolder, text: $field)
+                        .keyboardType(.decimalPad)
+                }
+                else{
+                    TextField(placeHolder, text: $field)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.allCharacters)
+                        
+
+                }
+                
+            }
+            .padding(8)
+//            .background(Color(UIColor.secondarySystemBackground))
+//            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(LinearGradient(gradient: Gradient(colors: [Color(isValid == true ? "DarkGreen" : "DarkYellow"),
+                                                                       Color(isValid == true ? "LightGreen" : "LightYellow")]),
+                                           startPoint: .leading, endPoint: .trailing), lineWidth: 3)
+                    
+            )
+            if prompt != ""{
+                Text(prompt)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(.caption)
+            }
+
+        }
+    }
+}
+
+
 struct EntrySlider: View {
     var sfSymbolName: String
     var placeHolder: String
@@ -205,12 +213,11 @@ struct EntrySlider: View {
                     .font(.headline)
                 Text(placeHolder)
                 Spacer()
-                Text("\(String(field))")
+                Text("\(String(Int(field)))")
             }
             .padding(8)
             .background(Color(UIColor.secondarySystemBackground))
             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-            
             Slider(
                 value: $field,
                 in: 40...100,
@@ -222,6 +229,51 @@ struct EntrySlider: View {
                 .font(.caption)
         }
         
+    }
+}
+
+struct RoundEntryWheel: View {
+    var sfSymbolName: String
+    var placeHolder: String
+    var prompt: String
+    var dictionary : [String]
+    @Binding var field: Int
+    @Binding var selector: Bool
+    var isValid: Bool
+
+    var body: some View {
+        VStack(alignment: .leading){
+            HStack(spacing: 5) {
+                Image(systemName: sfSymbolName)
+                    .foregroundColor(.gray)
+                    .font(.headline)
+                Text(placeHolder)
+                Spacer()
+                    Button(action: {
+                        selector.toggle()
+                    }) {
+                        Text(String(dictionary[field]))
+                            .foregroundColor(.gray)
+                    }
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+                    .font(.headline)
+            }
+            .padding(8)
+//            .background(Color(UIColor.secondarySystemBackground))
+//            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(LinearGradient(gradient: Gradient(colors: [Color(isValid == true ? "DarkGreen" : "DarkYellow"),
+                                                                       Color(isValid == true ? "LightGreen" : "LightYellow")]),
+                                           startPoint: .leading, endPoint: .trailing), lineWidth: 3))
+
+                if prompt != ""{
+                    Text(prompt)
+                .fixedSize(horizontal: false, vertical: true)
+                .font(.caption)
+                }
+        }
     }
 }
 
@@ -245,15 +297,24 @@ struct EntryWheel: View {
                         selector.toggle()
                     }) {
                         Text(String(dictionary[field]))
+                            .foregroundColor(.gray)
+//                        if field != -1 {
+//                            Text(String(dictionary[field]))
+//                                .foregroundColor(.gray)
+//                        }
+//                        else{
+//                            Text(defaultValue)
+//                                .foregroundColor(.gray)
+//                        }
                     }
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
                     .font(.headline)
             }
             .padding(8)
-            .foregroundColor(.primary)
-            .background(Color(UIColor.secondarySystemBackground))
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+//            .foregroundColor(.primary)
+//            .background(Color(UIColor.secondarySystemBackground))
+//            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
 
             Text(prompt)
                 .fixedSize(horizontal: false, vertical: true)
@@ -285,7 +346,10 @@ struct WheelKeyboard: View {
             .frame(maxWidth: .infinity)
             .background(Color(UIColor.systemGroupedBackground))
                 Picker(selection: $pickerValue, label: Text(placeholder)) {
-                    ForEach(0 ..< dictionary.count, id: \.self) { //value in
+//                    Text(defaultValue)
+//                        .tag(0)
+
+                    ForEach(0 ..< dictionary.count, id: \.self) {
                         Text(dictionary[$0]).tag($0)
                     }
                 }
@@ -294,48 +358,15 @@ struct WheelKeyboard: View {
                 .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
         }
     }
+        
 }
 
 
 
-struct SelectionCell: View {
-    
-    let item: String
-    @Binding var selectedItem: String?
-    
-    var body: some View {
-        HStack {
-            Text(item)
-            Spacer()
-            if item == selectedItem {
-                Image(systemName: "checkmark")
-                    .foregroundColor(.accentColor)
-            }
-        }.contentShape(Rectangle())
-            .onTapGesture {
-                self.selectedItem = self.item
-            }
-    }
-}
 
 
-struct SelectionList: View{
-    var placeHolder: String
-    var prompt: String
-    var dictionary: [String]
-    @Binding var field: String?
-
-    var body: some View{
-        Section(header: Text(placeHolder), footer: Text(prompt)) {
-            List(dictionary, id: \.self) {item in
-                SelectionCell(item: item, selectedItem: $field)
-            }
-        }
-    }
-}
-
-struct CarItem_Previews: PreviewProvider {
-    static var previews: some View {
-        Analytics().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct CarItem_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Analytics().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}
