@@ -11,7 +11,7 @@
         <attribute name="horsePower" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isArchive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="make" optional="YES" attributeType="String"/>
+        <attribute name="manufacturer" optional="YES" attributeType="String"/>
         <attribute name="mileage" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="model" optional="YES" attributeType="String"/>
         <attribute name="numberReg" optional="YES" attributeType="String"/>

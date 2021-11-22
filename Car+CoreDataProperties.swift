@@ -42,7 +42,7 @@ extension Car {
     // TBD
     @NSManaged public var numberReg: String?
 
-    @NSManaged public var make: String
+    @NSManaged public var manufacturer: String
     @NSManaged public var model: String
     @NSManaged public var district: String?
     @NSManaged public var remark: String?

@@ -45,12 +45,15 @@ struct Analytics: View {
                     List {
                         ScrollView(.horizontal) {
                             HStack{
+                                InsertCarCard(showSheet: $showCarInsert)
                                 ForEach(cars, id: \.id) {
                                     car in NavigationLink(destination: CarUpdate(car: car),
                                                           isActive : self.$isActive){
                                         SmallCarCard(car: car)
                                     }
+                                    
                                 }
+                                
                             }.padding()
                         }
                     }

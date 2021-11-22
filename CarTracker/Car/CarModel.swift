@@ -37,19 +37,17 @@ class CarModel : ObservableObject{
     init() {
         let url = Bundle.main.url(forResource: "Cars", withExtension: "json")!
         let data = try! Data(contentsOf: url)
-        makeDict = try! JSONDecoder().decode([Manufacturer].self, from: data)
+        manufacturerDict = try! JSONDecoder().decode([Manufacturer].self, from: data)
     }
-   // let makeDict = ["Renault", "BMW", "Volkswagen", "Audi", "Other"]
-    let makeDict: [Manufacturer]
-//    let modelDict = ["Sandero", "i3", "Touareg", "A5", "Other"]
+    let manufacturerDict: [Manufacturer]
     var modelDict: [Model] {
-        if (0 ..< makeDict.count).contains(selectedMakeIndex) {
-            return makeDict[selectedMakeIndex].models
+        if (0 ..< manufacturerDict.count).contains(selectedManufacturerIndex) {
+            return manufacturerDict[selectedManufacturerIndex].models
         }
 
         return []
     }
-    @Published var selectedMakeIndex = -1{
+    @Published var selectedManufacturerIndex = -1{
     didSet {
         // reset the currently selected model to "None" when the manufacturer changes
         selectedModelIndex = -1
@@ -70,7 +68,7 @@ class CarModel : ObservableObject{
     let fuelTypeDict = [defaultValue, "Бензин", "Дизель", "Гибрид", "Электро", "Газ", "Пропан", "Метан"]
     @Published var selectedFuelTypeIndex = 0
 
-    @Published var fuelVolume : Float = 0.0
+    @Published var fuelVolume : Float = 0
     @Published var horsePower = ""
     @Published var mileage = ""
     @Published var numberVIN = ""
@@ -86,36 +84,28 @@ class CarModel : ObservableObject{
     func SaveCar(_ context: NSManagedObjectContext){
         //        guard self.incomeValue != "" else {return}
         let newCar = Car(context: context)
-        
-//        newCar.make = self.makeDict[self.selectedMakeIndex]
-//        newCar.model = self.modelDict[self.selectedModelIndex]
-//        newCar.year = self.yearDict[self.selectedYearIndex]
-        newCar.year = String(self.year)
-//        newCar.country = self.countryDict[self.selectedCountryIndex]
-//        newCar.country = self.country
+
         newCar.id = UUID()
-        newCar.remark = self.remarks
         newCar.dateAdded = Date()
         newCar.dateUpdate = Date()
-        newCar.horsePower = Float(self.horsePower) ?? 0
-        newCar.numberReg = self.numberReg
-        newCar.numberVIN = self.numberVIN
-//        newCar.district = self.countryDict[self.selectedDistrictIndex]
-        
-        //        newCar.transmissionType = self.transmissionDict[self.selectedTransmissionIndex]
-        
-//        newCar.transmissionType = self.transmissionChoice!
-//        newCar.fuelType = self.fuelTypeChoice!
-        //        newCar.transmissionType = self.transmissionChoice
-        //        newCar.fuelType = self.fuelTypeChoice
-        
-        newCar.fuelVolume = self.fuelVolume
-        newCar.mileage = Float(self.mileage) ?? 0
-        
         newCar.isArchive = false
         
-        //        newCar.color = self.color
-        //        newCar.picture = self.picture
+
+
+        newCar.manufacturer = self.manufacturerDict[self.selectedManufacturerIndex].brand
+        newCar.model = self.modelDict[self.selectedModelIndex].name
+        newCar.horsePower = Float(self.horsePower) ?? 0
+        newCar.mileage = Float(self.mileage) ?? 0
+        newCar.numberVIN = self.numberVIN
+        newCar.year = String(self.year)
+
+
+        
+        newCar.country = self.countryDict[self.selectedCountryIndex]
+        newCar.numberReg = self.numberReg
+        
+        newCar.fuelType = self.fuelTypeDict[self.selectedFuelTypeIndex]
+        newCar.fuelVolume = self.fuelVolume
         
         do {
             try context.save()
@@ -127,30 +117,118 @@ class CarModel : ObservableObject{
         }
     }
     
-    
-    var promptFuelType: String {
-        if isFuelType() {
-            return ""
-        } else {
-            return "Выберите тип топлива для двигателя"
-        }
+//    enum WeatherType {
+//        case sun
+//        case cloud
+//        case rain
+//        case wind(speed: Int)
+//        case snow
+//    }
+//
+//    func getHaterStatus(weather: WeatherType) -> String? {
+//        switch isFuelType() {
+//        case .sun:
+//            return nil
+//        case .wind(let speed) where speed < 10:
+//            return "meh"
+//        case .cloud, .wind:
+//            return "dislike"
+//        case .rain, .snow:
+//            return "hate"
+//        }
+//    }
+//
+    let testWholeNumber = NSPredicate(format: "SELF MATCHES %@", "^[0-9]{3}$")
+    let testFractionalNumber = NSPredicate(format: "SELF MATCHES %@", "^[0-9]{1,3}[\\u002C][0-9]{1}$")
+
+    let promptHorsePower: String = "Введите мощность двигателя"
+    let promptFuelType: String = "Выберите тип топлива для двигателя"
+    let promptTransmissionType: String = "Выберите тип коробки передач"
+    let promptCountry: String = "Выберите страну регистрации"
+    let promptFuelVolume: String = "Введите текущее показание одометра"
+    let promptOptional: String = "Необязательное поле"
+//    let promptMileage: String = "Введите текущее показание одометра"
+    var promptNumberReg: String {
+        switch selectedCountryIndex{
+            case 1: // Russia
+                return "Введите номер в формате А123АА 77"
+            case 2: // Belarus
+                return "Введите номер в формате 1234АА 7"
+            case 3: // Ukraine
+                return "Введите номер в формате AA 1234AA"
+            default:
+                return "Неверный формат номера"
+            }
     }
+    
+//    var promptHorsePower: String {
+//        if isHorsePower() {
+//            return ""
+//        } else {
+//            return "Введите мощность двигателя"
+//        }
+//    }
+//
+//    var promptFuelType: String {
+//        if isFuelType() {
+//            return ""
+//        } else {
+//            return "Выберите тип топлива для двигателя"
+//        }
+//    }
+//
+//    var promptTransmissionType: String {
+//        if isTransmissionType() {
+//            return ""
+//        } else {
+//            return "Выберите тип коробки передач"
+//        }
+//    }
+//
+//    var promptCountry: String {
+//        if isCountry() {
+//            return ""
+//        } else {
+//            return "Выберите страну регистрации"
+//        }
+//    }
+//
+//    var promptFuelVolume: String {
+//        if isFuelVolume() {
+//            return ""
+//        } else {
+//            return "Введите объем"
+//        }
+//    }
+//
+
+//
+//    var promptOptional: String {
+//        return "Необязательное поле"
+//    }
+//
+//    var promptNumberReg: String {
+//        if isNumberRegValid() {
+//            return ""
+//        } else {
+//            switch selectedCountryIndex{
+//            case 1: // Russia
+//                return "Введите номер в формате А123АА 77"
+//            case 2: // Belarus
+//                return "Введите номер в формате 1234АА 7"
+//            case 3: // Ukraine
+//                return "Введите номер в формате AA 1234AA"
+//            default:
+//                return "Неверный формат номера"
+//            }        }
+//    }
     
     func isFuelType() -> Bool {
         if selectedFuelTypeIndex != 0 {
-//        if fuelType != nil && fuelType != defaultValue{
             return true
         }
         else{
             return false
-        }
-    }
-
-    var promptTransmissionType: String {
-        if isTransmissionType() {
-            return ""
-        } else {
-            return "Выберите тип коробки передач"
         }
     }
     
@@ -160,14 +238,6 @@ class CarModel : ObservableObject{
         }
         else{
             return false
-        }
-    }
-
-    var promptCountry: String {
-        if isCountry() {
-            return ""
-        } else {
-            return "Выберите страну регистрации"
         }
     }
     
@@ -180,16 +250,26 @@ class CarModel : ObservableObject{
         }
     }
     
-    var promptFuelVolume: String {
-        if isFuelVolume() {
-            return ""
-        } else {
-            return "Введите объем"
+    func isYear() -> Bool {
+        if selectedYearIndex != 0 {
+            return true
+        }
+        else{
+            return false
         }
     }
     
     func isFuelVolume() -> Bool {
         if fuelVolume != 0.0 {
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
+    func isMileage() -> Bool {
+        if (mileage != "")&&(testWholeNumber.evaluate(with: mileage)||testFractionalNumber.evaluate(with: mileage)){
             return true
         }
         else{
@@ -205,23 +285,6 @@ class CarModel : ObservableObject{
         }
     }
     
-    func isMileage() -> Bool {
-        if mileage != ""{
-            return true
-        }
-        else{
-            return false
-        }
-    }
-
-    var promptHorsePower: String {
-        if isHorsePower() {
-            return ""
-        } else {
-            return "Введите мощность двигателя"
-        }
-    }
-    
     func isHorsePower() -> Bool {
         if horsePower != ""{
             return true
@@ -231,9 +294,7 @@ class CarModel : ObservableObject{
         }
     }
     
-    var promptOptional: String {
-        return "Необязательное поле"
-    }
+
     
     func isNumberRegValid() -> Bool {
         let testDefault = NSPredicate(format: "SELF MATCHES %@",
@@ -258,22 +319,6 @@ class CarModel : ObservableObject{
         default:
             return testDefault.evaluate(with: numberReg)
         }
-    }
-    
-    var promptNumberReg: String {
-        if isNumberRegValid() {
-            return ""
-        } else {
-            switch selectedCountryIndex{
-            case 1: // Russia
-                return "Введите номер в формате А123АА 77"
-            case 2: // Belarus
-                return "Введите номер в формате 1234АА 7"
-            case 3: // Ukraine
-                return "Введите номер в формате AA 1234AA"
-            default:
-                return "Неверный формат номера"
-            }        }
     }
     
     var isReadyInsert: Bool {
