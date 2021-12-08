@@ -72,7 +72,7 @@ struct Analytics: View {
                 CarInsert(showView: self.$showCarInsert)
                 
             }
-        }
+        }.navigationViewStyle(.stack) // multiple warnings without this
         
     }
     
