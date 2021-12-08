@@ -14,10 +14,7 @@ struct CarList: View {
 
     var body: some View {
         
-        OldEntryField(sfSymbolName: "number",
-                   placeHolder: "Гос. номер",
-                   prompt: "newCar.promptNumberReg",
-                   field: $field)
+        Text("abc")
     }
 }
 

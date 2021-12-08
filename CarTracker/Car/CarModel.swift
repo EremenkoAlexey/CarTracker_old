@@ -211,7 +211,7 @@ class CarModel : ObservableObject{
             !isManufacturer() ||
             !isNumberRegValid(){
             return false
-        }
+        } 
         return true
     }
 }

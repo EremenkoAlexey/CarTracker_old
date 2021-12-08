@@ -29,7 +29,6 @@
 		9B4FBB66270389B50059CD4B /* CarUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4FBB65270389B50059CD4B /* CarUpdate.swift */; };
 		9B6235972721B52100350DC2 /* Cars.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B6235962721B52100350DC2 /* Cars.json */; };
 		9BB55EE3272ABD990095A18C /* TempLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB55EE2272ABD990095A18C /* TempLib.swift */; };
-		9BCC7200273EB606003080B2 /* CarValidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCC71FF273EB606003080B2 /* CarValidate.swift */; };
 		9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF6D8A271475A0001E02C4 /* CarModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +75,6 @@
 		9B4FBB65270389B50059CD4B /* CarUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarUpdate.swift; sourceTree = "<group>"; };
 		9B6235962721B52100350DC2 /* Cars.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cars.json; sourceTree = "<group>"; };
 		9BB55EE2272ABD990095A18C /* TempLib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempLib.swift; sourceTree = "<group>"; };
-		9BCC71FF273EB606003080B2 /* CarValidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarValidate.swift; sourceTree = "<group>"; };
 		9BCF6D8A271475A0001E02C4 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -187,7 +185,6 @@
 		9BB55EE1272ABD6C0095A18C /* TempLib */ = {
 			isa = PBXGroup;
 			children = (
-				9BCC71FF273EB606003080B2 /* CarValidate.swift */,
 				9BB55EE2272ABD990095A18C /* TempLib.swift */,
 			);
 			path = TempLib;
@@ -347,7 +344,6 @@
 				9B4FBB5827036EAF0059CD4B /* Main.swift in Sources */,
 				9BCF6D8B271475A0001E02C4 /* CarModel.swift in Sources */,
 				9B213317273C28BB0097CEF2 /* StylesLibrary.swift in Sources */,
-				9BCC7200273EB606003080B2 /* CarValidate.swift in Sources */,
 				9B4FBB5E270373F00059CD4B /* Analytics.swift in Sources */,
 				9B4FBB25270367CE0059CD4B /* CarTrackerApp.swift in Sources */,
 				9B050FC227107B25000F54B7 /* CarStruct.swift in Sources */,

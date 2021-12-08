@@ -42,7 +42,7 @@ struct RoundYellowToGreenButton: ButtonStyle {
             .cornerRadius(30)
             .padding(.horizontal, 20)
 
-    }
+    } 
 }
 
 struct WhiteBoldButtonText: View{

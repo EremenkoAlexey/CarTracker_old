@@ -151,7 +151,7 @@ struct CarInsert: View {
                           dictionary: newCar.yearDict)
                 .opacity(showYearSelector ? 1 : 0)
                 .animation(.easeIn)
-            
+             
             WheelKeyboard(pickerValue: $newCar.selectedCountryIndex,
                           showSelector: $showCountrySelector,
                           placeholder: "Страна",

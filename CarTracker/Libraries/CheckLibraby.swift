@@ -15,7 +15,7 @@ let testFractionalNumber = NSPredicate(format: "SELF MATCHES %@", "^[0-9]{1,7}[\
 
 let testDefaultRegNumber = NSPredicate(format: "SELF MATCHES %@",
                               "[a-z0-9]{1,15}")
-
+ 
 let testRussiaRegNumber = NSPredicate(format: "SELF MATCHES %@",
                              "^[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0423\\u0425]{1}[0-9]{3}[\\u0410\\u0412\\u0415\\u041A\\u041C\\u041D\\u041E\\u0420\\u0421\\u0422\\u0423\\u0425]{2}\\u0020([0-9]{2}|[1-9]{1}[0-9]{2})$")
 

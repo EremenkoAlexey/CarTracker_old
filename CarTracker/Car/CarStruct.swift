@@ -11,7 +11,7 @@ struct Manufacturer: Decodable {
     let brand: String
     let models: [Model]
 }
-
+ 
 struct Model: Decodable {
     let name: String
 }
