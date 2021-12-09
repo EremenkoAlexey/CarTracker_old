@@ -13,7 +13,7 @@ struct Manufacturer: Decodable {
 }
  
 struct Model: Decodable {
-    let name: String
+    let name: String 
 }
 
 struct SmallCarCard: View {
