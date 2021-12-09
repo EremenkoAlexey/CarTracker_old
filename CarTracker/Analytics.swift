@@ -73,7 +73,7 @@ struct Analytics: View {
                 
             }
         }.navigationViewStyle(.stack) // multiple warnings without this
-         
+          
     }
     
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// tests 0-7 digits olny
+// tests 0-7 digits olny 
 let testWholeNumber = NSPredicate(format: "SELF MATCHES %@", "^[0-9]{0,7}$")
 
 // tests 0-7 digits, 1 coma and 1 digit after it

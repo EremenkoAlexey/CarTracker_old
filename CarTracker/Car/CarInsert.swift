@@ -54,7 +54,7 @@ struct CarInsert: View {
                                                selector: $showModelSelector,
                                                isValid: newCar.isModel(),
                                                currentValue: newCar.simpleModelDict[newCar.selectedModelIndex])
-                                }
+                                } 
                                 
                                 
                                 EntryWheel(sfSymbolName: "calendar",

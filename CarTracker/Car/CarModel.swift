@@ -119,7 +119,7 @@ class CarModel : ObservableObject{
     func isTransmissionType() -> Bool {
         return (selectedTransmissionIndex != 0 ? true : false)
     }
- 
+  
     func isModel() -> Bool {
         return (selectedModelIndex != 0 ? true : false)
     }
